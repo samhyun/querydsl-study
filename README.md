@@ -1,2 +1,1 @@
 # querydsl-study
-# querydsl-study
