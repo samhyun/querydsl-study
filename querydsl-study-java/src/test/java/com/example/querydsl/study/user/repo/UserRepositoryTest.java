@@ -1,6 +1,6 @@
-package com.example.querydsl.study.repo;
+package com.example.querydsl.study.user.repo;
 
-import com.example.querydsl.study.entity.User;
+import com.example.querydsl.study.user.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

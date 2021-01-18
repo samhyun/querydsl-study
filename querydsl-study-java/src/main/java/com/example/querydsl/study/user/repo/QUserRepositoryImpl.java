@@ -1,11 +1,11 @@
-package com.example.querydsl.study.repo;
+package com.example.querydsl.study.user.repo;
 
-import com.example.querydsl.study.dto.QUserDto;
-import com.example.querydsl.study.dto.UserDto;
-import com.example.querydsl.study.entity.User;
+import com.example.querydsl.study.user.dto.QUserDto;
+import com.example.querydsl.study.user.dto.UserDto;
+import com.example.querydsl.study.user.entity.User;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import static com.example.querydsl.study.entity.QUser.user;
+import static com.example.querydsl.study.user.entity.QUser.user;
 
 public class QUserRepositoryImpl extends QuerydslRepositorySupport implements QUserRepository {
 

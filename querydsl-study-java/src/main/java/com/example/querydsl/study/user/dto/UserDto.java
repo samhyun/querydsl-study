@@ -1,4 +1,4 @@
-package com.example.querydsl.study.dto;
+package com.example.querydsl.study.user.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
