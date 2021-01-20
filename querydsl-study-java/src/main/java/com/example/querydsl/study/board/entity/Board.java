@@ -21,6 +21,7 @@ public class Board extends BaseEntity {
 
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private BoardType type;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)

@@ -2,26 +2,23 @@ package com.example.querydsl.study.user.repo;
 
 import com.example.querydsl.study.user.dto.UserDto;
 import com.example.querydsl.study.user.entity.User;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.jdbc.Sql;
 
-import javax.persistence.PersistenceException;
-import java.util.List;
-
+@Sql(scripts = {"classpath:data/user.sql"})
 @DataJpaTest
-public class InMemoryDBUserRepositoryTest {
+public class InMemoryUserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+//    @Autowired
+//    private TestEntityManager testEntityManager;
 
     @BeforeEach
     void setUp() {
@@ -36,6 +33,9 @@ public class InMemoryDBUserRepositoryTest {
 
     @Test
     public void userInsertTest() {
+//        given
+        long count = userRepository.count();
+//        when
         userRepository.save(
                 User.builder()
                         .email("test2@test.com")
@@ -44,14 +44,12 @@ public class InMemoryDBUserRepositoryTest {
                         .lastName("last2")
                         .build());
 
-        List<User> users = userRepository.findAll();
-
-        Assertions.assertEquals(2, users.size());
+//       then
+        Assertions.assertEquals(count + 1, userRepository.count());
     }
 
     @Test
     public void userInsertExistsNicknameTest() {
-//        DataIntegrityViolationException
 //        given
         User existsUser = User.builder()
                 .email("test@test.com")
@@ -61,10 +59,9 @@ public class InMemoryDBUserRepositoryTest {
                 .build();
 
 //        when
-        userRepository.save(existsUser);
-
-        Assertions.assertThrows(PersistenceException.class, () -> {
-            testEntityManager.flush();
+//        then
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
+            userRepository.save(existsUser);
         });
     }
 
