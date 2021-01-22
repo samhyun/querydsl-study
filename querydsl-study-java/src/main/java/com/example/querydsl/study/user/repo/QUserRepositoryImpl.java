@@ -16,7 +16,7 @@ public class QUserRepositoryImpl extends QuerydslRepositorySupport implements QU
     @Override
     public UserDto getById(long id) {
         return from(user).select(
-                new QUserDto(user.id, user.firstName.append(" ").append(user.lastName))
-        ).fetchFirst();
+                new QUserDto(user.id, user.email, user.nickname, user.lastName, user.firstName, user.mobile)
+        ).where(user.id.eq(id)).fetchFirst();
     }
 }

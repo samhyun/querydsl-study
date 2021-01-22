@@ -27,7 +27,7 @@ public class BoardDto {
 
     private List<PostDto> posts;
 
-    private long postCount;
+    private Long postCount;
 
     @QueryProjection
     public BoardDto(long id, String name, BoardType type, long postCount) {

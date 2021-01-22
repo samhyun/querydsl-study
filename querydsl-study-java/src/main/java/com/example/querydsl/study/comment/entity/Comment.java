@@ -4,6 +4,7 @@ import com.example.querydsl.study.core.entity.BaseEntity;
 import com.example.querydsl.study.post.entity.Post;
 import com.example.querydsl.study.user.entity.User;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

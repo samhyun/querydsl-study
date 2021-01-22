@@ -19,6 +19,7 @@ public class Board extends BaseEntity {
     @GeneratedValue
     private long id;
 
+    @Column(nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)

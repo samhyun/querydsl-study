@@ -11,12 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static com.example.querydsl.study.board.entity.QBoard.board;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Sql(scripts = {
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
         "classpath:data/board.sql",
         "classpath:data/post.sql"
 })
-public class InMemoryBoardRepositoryTest {
+public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepository;
@@ -82,29 +83,73 @@ public class InMemoryBoardRepositoryTest {
         );
     }
 
+    /**
+     * 게시판 목록 조회 테스트
+     */
     @Test
     public void select_board_list_test() {
-        List<BoardDto> boards = boardRepository.findBoards(null);
+        List<BoardDto> boards = boardRepository.findBoards(board.type.in(BoardType.COMMUNITY, BoardType.BLOG), board.id.desc());
 
         boards.forEach(board -> {
             if (board.getId() == communityBoard.getId()) {
-                communityBoard_test(board);
+                assertEquals(2, board.getPostCount());
+                assertEquals(BoardType.COMMUNITY, board.getType());
             }
             if (board.getId() == blogBoard.getId()) {
-                blogBoard_test(board);
+                assertEquals(1, board.getPostCount());
+                assertEquals(BoardType.BLOG, board.getType());
             }
 
             assertNull(board.getPosts());
         });
     }
 
-    private void blogBoard_test(BoardDto board) {
-        assertEquals(1, board.getPostCount());
-        assertEquals(BoardType.BLOG, board.getType());
+    /**
+     * 게시판 상세 조회 테스트
+     */
+    @Test
+    public void select_board_detail_test() {
+        BoardDto board = boardRepository.getBoard(1);
+
+        assertNull(board.getPostCount());
+        assertEquals(2, board.getPosts().size());
+        assertEquals("testNotice!!!", board.getName());
+        assertEquals(BoardType.NOTICE, board.getType());
+
+        board.getPosts().forEach(post -> {
+            assertNotNull(post.getWriter());
+        });
     }
 
-    private void communityBoard_test(BoardDto board) {
-        assertEquals(2, board.getPostCount());
-        assertEquals(BoardType.COMMUNITY, board.getType());
+    /**
+     * 게시판 조회 등록 테스트
+     */
+    @Test
+    public void insert_board_test() {
+        long count = boardRepository.count();
+        Board board = boardRepository.save(
+                Board.builder()
+                        .name("새로 등록한 게시판")
+                        .type(BoardType.COMMUNITY)
+                        .build()
+        );
+
+        assertNotEquals(0, board.getId());
+        assertEquals(count + 1, boardRepository.count());
+
+    }
+
+    /**
+     * 이름이 null 인 게시판 등록 테스트
+     */
+    @Test
+    public void test_insert_name_null() {
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
+            boardRepository.save(
+                    Board.builder()
+                            .type(BoardType.COMMUNITY)
+                            .build()
+            );
+        });
     }
 }

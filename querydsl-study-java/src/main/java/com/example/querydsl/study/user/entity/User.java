@@ -27,9 +27,9 @@ public class User extends BaseEntity {
 
     private String password;
 
-    private String firstName;
-
     private String lastName;
+
+    private String firstName;
 
     private String mobile;
 

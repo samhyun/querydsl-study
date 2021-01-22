@@ -1,6 +1,7 @@
 package com.example.querydsl.study.core.entity;
 
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
