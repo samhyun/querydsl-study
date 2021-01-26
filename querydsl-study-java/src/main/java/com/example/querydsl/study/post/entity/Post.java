@@ -4,7 +4,11 @@ import com.example.querydsl.study.board.entity.Board;
 import com.example.querydsl.study.comment.entity.Comment;
 import com.example.querydsl.study.core.entity.BaseEntity;
 import com.example.querydsl.study.user.entity.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,7 +16,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post extends BaseEntity {

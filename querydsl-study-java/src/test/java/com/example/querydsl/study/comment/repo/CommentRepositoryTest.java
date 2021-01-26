@@ -5,16 +5,18 @@ import com.example.querydsl.study.comment.entity.Comment;
 import com.example.querydsl.study.post.entity.Post;
 import com.example.querydsl.study.post.repo.PostRepository;
 import com.example.querydsl.study.user.entity.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
+import static com.example.querydsl.study.comment.entity.QComment.comment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DataJpaTest
 @Sql(scripts = {
@@ -34,8 +36,6 @@ public class CommentRepositoryTest {
 
     private User writer;
 
-    private Comment comment;
-    private Comment savedComment;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -45,20 +45,25 @@ public class CommentRepositoryTest {
         post = Post.builder().id(1).build();
         writer = User.builder().id(1).build();
 
-        comment = Comment.builder()
-                .post(post)
-                .writer(writer)
-                .content("hihihiih")
-                .build();
-
-        savedComment = commentRepository.save(
-                comment
-        );
-        testEntityManager.flush();
+        for (int i = 0; i < 100; i++) {
+            commentRepository.save(Comment.builder()
+                    .post(post)
+                    .writer(writer)
+                    .content("test comment - " + i)
+                    .build());
+        }
     }
 
     @Test
-    void update_comment_test() {
+    public void select_comment_page_test() {
+        Page<CommentDto> commentPage = commentRepository.findComments(
+                comment.post.id.eq(post.getId()),
+                PageRequest.of(1, 5, Sort.by(Sort.Order.desc("createdAt"), Sort.Order.asc("content")))
+        );
+
+        assertEquals(100, commentPage.getTotalElements());
+        assertEquals(1, commentPage.getNumber());
+        assertEquals(5, commentPage.getNumberOfElements());
     }
 
 

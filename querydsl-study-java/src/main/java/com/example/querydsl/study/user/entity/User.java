@@ -3,6 +3,7 @@ package com.example.querydsl.study.user.entity;
 import com.example.querydsl.study.core.entity.BaseEntity;
 import com.example.querydsl.study.post.entity.Post;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntity {

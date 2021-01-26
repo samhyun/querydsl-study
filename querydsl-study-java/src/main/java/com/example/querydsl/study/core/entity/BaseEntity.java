@@ -1,6 +1,7 @@
 package com.example.querydsl.study.core.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,7 +9,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@SuperBuilder
 @MappedSuperclass
+@NoArgsConstructor
 public abstract class BaseEntity {
 
     @Temporal(TemporalType.TIMESTAMP)

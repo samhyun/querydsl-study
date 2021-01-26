@@ -1,6 +1,5 @@
 package com.example.querydsl.study.post.repo;
 
-import com.example.querydsl.study.comment.dto.CommentDto;
 import com.example.querydsl.study.comment.dto.QCommentDto;
 import com.example.querydsl.study.core.querydsl.CustomQuerydslRepositorySupport;
 import com.example.querydsl.study.post.dto.PostDto;
@@ -36,13 +35,7 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
         return query.transform(
                 GroupBy.groupBy(post.id)
                         .list(
-                                new QPostDto(
-                                        post.id,
-                                        post.title,
-                                        post.content,
-                                        new QUserDto(user.id, user.nickname),
-                                        post.createdAt,
-                                        post.comments.size().longValue())
+                                this.createProjections()
                         )
         );
     }
@@ -58,29 +51,41 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
 
     @Override
     public PostDto getPost(long id) {
+        return this.createDefaultQuery()
+                .where(post.id.eq(id))
+                .transform(
+                        GroupBy.groupBy(post.id)
+                        .as(
+                                this.createProjections()
+                        )
+                ).get(id);
+    }
+
+    @Override
+    public PostDto getPostWithComments(long id) {
         QUser commentWriter = new QUser("commentWriter");
         return createDefaultQuery()
                 .leftJoin(comment.writer, commentWriter)
                 .where(post.id.eq(id))
                 .transform(
                         GroupBy.groupBy(post.id)
-                        .as(
-                                new QPostDto(
-                                        post.id,
-                                        post.title,
-                                        post.content,
-                                        new QUserDto(user.id, user.nickname),
-                                        post.createdAt,
-                                        post.comments.size().longValue(),
-                                        GroupBy.list(
-                                                new QCommentDto(
-                                                        comment.id,
-                                                        comment.content,
-                                                        new QUserDto(commentWriter.id, user.nickname)
-                                                ).skipNulls()
+                                .as(
+                                        new QPostDto(
+                                                post.id,
+                                                post.title,
+                                                post.content,
+                                                new QUserDto(user.id, user.nickname),
+                                                post.createdAt,
+                                                post.comments.size().longValue(),
+                                                GroupBy.list(
+                                                        new QCommentDto(
+                                                                comment.id,
+                                                                comment.content,
+                                                                new QUserDto(commentWriter.id, commentWriter.nickname).skipNulls()
+                                                        ).skipNulls()
+                                                )
                                         )
                                 )
-                        )
                 ).get(id);
     }
 
@@ -96,5 +101,13 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
         return post.id.in(ids);
     }
 
-
+    private QPostDto createProjections() {
+        return new QPostDto(
+                post.id,
+                post.title,
+                post.content,
+                new QUserDto(user.id, user.nickname),
+                post.createdAt,
+                post.comments.size().longValue());
+    }
 }

@@ -104,8 +104,13 @@ public class PostRepositoryTest {
         PostDto postDto = postRepository.getPost(detailPost.getId());
 
         assertNotNull(postDto);
-        assertEquals(900, postDto.getComments().size());
-        assertEquals(2, postDto.getComments().get(0).getWriter().getId());
+        assertEquals(900, postDto.getCommentCount());
+        assertNull(postDto.getComments());
+
+        PostDto postDtoWithComments = postRepository.getPostWithComments(detailPost.getId());
+        assertEquals(900, postDtoWithComments.getCommentCount());
+        assertNotNull(postDtoWithComments.getComments());
+        assertEquals(2, postDtoWithComments.getComments().get(0).getWriter().getId());
     }
 
     @Test
@@ -113,7 +118,6 @@ public class PostRepositoryTest {
         Post savePost = postRepository.save(
                 createPostInstance("등록 테스트")
         );
-
         assertNotEquals(0, savePost.getId());
         PostDto postDto = postRepository.getPost(savePost.getId());
         assertEquals(savePost.getTitle(), postDto.getTitle());

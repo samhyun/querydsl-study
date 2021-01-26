@@ -6,15 +6,13 @@ import com.example.querydsl.study.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment extends BaseEntity {
@@ -30,4 +28,10 @@ public class Comment extends BaseEntity {
 
     @ManyToOne
     private Post post;
+
+    @ManyToOne
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
+    private List<Comment> children;
 }
