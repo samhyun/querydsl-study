@@ -48,9 +48,13 @@ public class QCommentRepositoryImpl extends CustomQuerydslRepositorySupport impl
                                                         new QCommentDto(
                                                                 child.id,
                                                                 child.content,
-                                                                new QUserDto(child.writer.id, child.writer.nickname).skipNulls()
+                                                                new QUserDto(child.writer.id, child.writer.nickname).skipNulls(),
+                                                                comment.createdAt,
+                                                                comment.modifiedAt
                                                         ).skipNulls()
-                                                )
+                                                ),
+                                                comment.createdAt,
+                                                comment.modifiedAt
                                         )
                                 )
                 ), pageable, this.count(predicate));

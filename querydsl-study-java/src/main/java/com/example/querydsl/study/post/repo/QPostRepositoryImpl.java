@@ -81,7 +81,9 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
                                                         new QCommentDto(
                                                                 comment.id,
                                                                 comment.content,
-                                                                new QUserDto(commentWriter.id, commentWriter.nickname).skipNulls()
+                                                                new QUserDto(commentWriter.id, commentWriter.nickname).skipNulls(),
+                                                                comment.createdAt,
+                                                                comment.modifiedAt
                                                         ).skipNulls()
                                                 )
                                         )
