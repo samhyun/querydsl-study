@@ -5,6 +5,7 @@ import com.example.querydsl.study.core.querydsl.CustomQuerydslRepositorySupport;
 import com.example.querydsl.study.post.dto.PostDto;
 import com.example.querydsl.study.post.dto.QPostDto;
 import com.example.querydsl.study.post.entity.Post;
+import com.example.querydsl.study.post.entity.QPost;
 import com.example.querydsl.study.user.dto.QUserDto;
 import com.example.querydsl.study.user.entity.QUser;
 import com.querydsl.core.group.GroupBy;
@@ -14,6 +15,7 @@ import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 import java.util.List;
 
