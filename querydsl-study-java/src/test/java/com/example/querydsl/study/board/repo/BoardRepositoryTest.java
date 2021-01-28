@@ -52,7 +52,7 @@ public class BoardRepositoryTest {
                         .build()
         );
 
-        User writer = User.builder().id(1).build();
+        User writer = User.builder().id(1L).build();
 
         postRepository.save(
                 Post.builder()

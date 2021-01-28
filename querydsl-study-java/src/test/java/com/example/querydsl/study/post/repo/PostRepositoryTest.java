@@ -52,7 +52,7 @@ public class PostRepositoryTest {
                         .build()
         );
 
-        writer = User.builder().id(1).build();
+        writer = User.builder().id(1L).build();
 
         detailPost = postRepository.save(
                 createPostInstance("상세조회 포스트")
@@ -154,7 +154,7 @@ public class PostRepositoryTest {
     private Comment createCommentInstance(Post post) {
         return Comment.builder()
                 .content("test")
-                .writer(User.builder().id(2).build())
+                .writer(User.builder().id(2L).build())
                 .post(post)
                 .build();
     }

@@ -23,7 +23,7 @@ public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;

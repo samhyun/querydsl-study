@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentDto extends BaseDto {
 
-    private long id;
+    private Long id;
 
     private String content;
 

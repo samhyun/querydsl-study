@@ -18,7 +18,7 @@ public class User extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true, updatable = false)
     private String email;

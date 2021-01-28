@@ -1,19 +1,23 @@
 package com.example.querydsl.study.user.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class UserDto {
 
-    private long id;
+    @NotNull(groups = UserReference.class)
+    private Long id;
 
+    @NotNull(groups = UserSave.class)
     private String email;
 
+    @NotNull
     private String nickname;
 
     private String password;
@@ -38,6 +42,7 @@ public class UserDto {
     }
 
     @QueryProjection
+    @Builder
     public UserDto(long id, String email, String nickname, String lastName, String firstName, String mobile) {
         this.id = id;
         this.email = email;

@@ -55,9 +55,9 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
                 .where(post.id.eq(id))
                 .transform(
                         GroupBy.groupBy(post.id)
-                        .as(
-                                this.createProjections()
-                        )
+                                .as(
+                                        this.createProjections()
+                                )
                 ).get(id);
     }
 
@@ -112,4 +112,5 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
                 post.createdAt,
                 post.comments.size().longValue());
     }
+
 }

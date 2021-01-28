@@ -3,9 +3,14 @@ package com.example.querydsl.study.post.dto;
 import com.example.querydsl.study.comment.dto.CommentDto;
 import com.example.querydsl.study.user.dto.UserDto;
 import com.querydsl.core.annotations.QueryProjection;
+import com.zaxxer.hikari.metrics.PoolStats;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +18,16 @@ import java.util.List;
 @NoArgsConstructor
 public class PostDto {
 
-    private long id;
+    private Long id;
 
+    @NotNull(groups = PostSave.class)
     private String title;
 
+    @NotNull(groups = PostSave.class)
     private String content;
 
+    @NotNull(groups = PostSave.class)
+    @Valid
     private UserDto writer;
 
     private Date createdAt;
@@ -46,6 +55,7 @@ public class PostDto {
     }
 
     @QueryProjection
+    @Builder
     public PostDto(long id, String title, String content, UserDto writer, Date createdAt, long commentCount, List<CommentDto> comments) {
         this.id = id;
         this.title = title;

@@ -42,8 +42,8 @@ public class CommentRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        post = Post.builder().id(1).build();
-        writer = User.builder().id(1).build();
+        post = Post.builder().id(1L).build();
+        writer = User.builder().id(1L).build();
 
         for (int i = 0; i < 100; i++) {
             commentRepository.save(Comment.builder()
