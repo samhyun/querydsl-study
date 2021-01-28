@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.convert.ApplicationConversionService;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver;
+import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -37,7 +39,7 @@ public class PostQuerydslPredicateTest {
     @BeforeEach
     void setUp() {
         this.resolver = new QuerydslPredicateArgumentResolver(new QuerydslBindingsFactory(SimpleEntityPathResolver.INSTANCE),
-                Optional.of(new ApplicationConversionService()));
+                Optional.of(new DefaultFormattingConversionService()));
         this.request = new MockHttpServletRequest();
 
         this.dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
