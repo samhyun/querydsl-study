@@ -67,6 +67,11 @@ public class PostControllerTest {
         performSavePost(postDto).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
+    @Test
+    public void call_get_post_api() {
+
+    }
+
     @ParameterizedTest
     @MethodSource("invalidPostDataProvider")
     public void call_save_post_api_with_invalid_post_data(PostDto postDto) throws Exception {

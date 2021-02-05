@@ -27,7 +27,7 @@ public class PostController {
     @PostMapping
     @ApiOperation("게시글 등록 api")
     public PostDto save(@Validated({PostSave.class, UserReference.class}) @RequestBody PostDto postDto) {
-        return null;
+        return postService.save(postDto);
     }
 
     @GetMapping
@@ -38,5 +38,11 @@ public class PostController {
     public Page<PostDto> find(@QuerydslPredicate(root = Post.class) Predicate predicate,
                               @PageableDefault Pageable pageable) {
         return postService.findAll(predicate, pageable);
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("게시글 상세 조회")
+    public Post get(@PathVariable long id) {
+        return postService.get(id);
     }
 }

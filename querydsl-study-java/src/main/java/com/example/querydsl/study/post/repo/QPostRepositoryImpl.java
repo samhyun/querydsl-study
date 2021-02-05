@@ -11,6 +11,7 @@ import com.example.querydsl.study.user.entity.QUser;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.querydsl.study.comment.entity.QComment.comment;
 import static com.example.querydsl.study.post.entity.QPost.post;
@@ -115,4 +117,8 @@ public class QPostRepositoryImpl extends CustomQuerydslRepositorySupport impleme
                 post.comments.size().longValue());
     }
 
+    @Override
+    public void addCustomization(QuerydslBindings bindings, QPost entityPath) {
+        bindings.bind(post.content).first(StringExpression::contains);
+    }
 }

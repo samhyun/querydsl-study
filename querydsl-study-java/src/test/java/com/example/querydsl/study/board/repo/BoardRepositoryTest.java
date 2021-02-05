@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class BoardRepositoryTest {
      */
     @Test
     public void select_board_list_test() {
-        List<BoardDto> boards = boardRepository.findBoards(board.type.in(BoardType.COMMUNITY, BoardType.BLOG), board.id.desc());
+        List<BoardDto> boards = boardRepository.findBoards(board.type.in(BoardType.COMMUNITY, BoardType.BLOG), Sort.by(Sort.Direction.DESC, "id"));
 
         boards.forEach(board -> {
             if (board.getId() == communityBoard.getId()) {

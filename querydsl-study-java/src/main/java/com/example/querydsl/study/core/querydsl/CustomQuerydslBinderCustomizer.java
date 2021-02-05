@@ -13,11 +13,11 @@ import java.util.Optional;
 
 public interface CustomQuerydslBinderCustomizer<T extends EntityPath<?>> extends QuerydslBinderCustomizer<T> {
 
-    default void addCustomization(QuerydslBindings bindings, T entityPath) {
-    }
+    void addCustomization(QuerydslBindings bindings, T entityPath);
 
     @Override
     default void customize(QuerydslBindings bindings, T entityPath) {
+
         bindings.bind(Date.class).all((path, value) -> {
             List<? extends Date> dates = new ArrayList<>(value);
             if (dates.size() == 1) {

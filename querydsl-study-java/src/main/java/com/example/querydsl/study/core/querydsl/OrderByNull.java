@@ -1,6 +1,5 @@
 package com.example.querydsl.study.core.querydsl;
 
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;

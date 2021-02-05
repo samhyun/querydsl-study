@@ -1,6 +1,7 @@
 package com.example.querydsl.study.post.service;
 
 import com.example.querydsl.study.post.dto.PostDto;
+import com.example.querydsl.study.post.entity.Post;
 import com.example.querydsl.study.post.repo.PostRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,13 @@ public class PostService {
 
     public Page<PostDto> findAll(Predicate predicate, Pageable pageable) {
         return postRepository.findPosts(predicate, pageable);
+    }
+
+    public Post get(long id) {
+        return null;
+    }
+
+    public PostDto save(PostDto postDto) {
+        return null;
     }
 }
