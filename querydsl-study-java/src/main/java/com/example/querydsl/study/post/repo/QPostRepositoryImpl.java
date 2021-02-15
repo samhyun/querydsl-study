@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.querydsl.study.comment.entity.QComment.comment;
 import static com.example.querydsl.study.post.entity.QPost.post;

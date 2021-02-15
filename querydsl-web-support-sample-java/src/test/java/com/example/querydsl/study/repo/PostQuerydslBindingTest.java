@@ -61,6 +61,24 @@ public class PostQuerydslBindingTest {
         assertEquals(post.createdAt.between(startAt, endAt).and(post.modifiedAt.eq(startAt)), predicate);
     }
 
+    @Test
+    public void binding_string_parameters_test() throws Exception {
+        request.addParameter("writer.nickname", "%test%");
+        request.addParameter("title", "test");
+        request.addParameter("title", "test1");
+        request.addParameter("content", "test");
+        Object predicate = resolver.resolveArgument(
+                new MethodParameter(PostApi.class.getMethod("find", Predicate.class), 0),
+                null,
+                new ServletWebRequest(request),
+                null);
+
+        assertNotNull(predicate);
+        assertEquals(post.writer.nickname.like("%test%")
+                .and(post.title.in("test", "test1"))
+                .and(post.content.contains("test")), predicate);
+    }
+
     interface PostApi {
 
         void find(@QuerydslPredicate(root = Post.class, bindings = PostRepository.class) Predicate predicate);
